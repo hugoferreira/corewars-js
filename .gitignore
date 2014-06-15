@@ -1,0 +1,17 @@
+# project output directory
+target/
+
+# system and IDE setting files
+.DS_Store
+.idea
+.idea_modules
+.ensime
+.lib
+.ensime_lucene
+.ensime_port
+*~
+.cache
+.classpath
+.project
+.settings/org.scala-ide.sdt.core.prefs
+.history
