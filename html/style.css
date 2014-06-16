@@ -1,0 +1,34 @@
+#debugger {
+    font-family: monospace;
+    color: white;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-family: monospace;
+    letter-spacing: 6pt;
+}
+
+#outer {
+    width: 100%;
+
+    /* Firefox */
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+
+    /* Safari and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+
+    /* W3C */
+    display: box;
+    box-pack: center;
+    box-align: center;
+}
+
+#inner {
+    width: 900px;
+}

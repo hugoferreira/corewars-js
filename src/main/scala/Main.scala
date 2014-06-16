@@ -4,7 +4,7 @@
 
 import scala.scalajs.js.{JSApp, Dynamic}
 import org.scalajs.dom
-import org.scalajs.dom.{HTMLCanvasElement, CanvasRenderingContext2D}
+import org.scalajs.dom.{HTMLElement, HTMLCanvasElement, CanvasRenderingContext2D}
 import scala.collection._
 
 sealed trait Opcode
@@ -34,8 +34,8 @@ sealed case class Instruction(op: Opcode, amode: Mode, a: Int, bmode: Mode, b: I
 
 object Dat00 extends Instruction(Dat, Immediate, 0, Immediate, 0)
 
-final class Visualizer(warriors: List[Warrior])(implicit mem: Memory with DirtyMemory, renderer: CanvasRenderingContext2D) {
-  private[this] val gridWidth     = 100
+final class Visualizer(renderer: CanvasRenderingContext2D, debugger: HTMLElement, warriors: List[Warrior])(implicit mem: Memory with DirtyMemory) {
+  private[this] val gridWidth     = 125
   private[this] val cellInnerSize = 6
   private[this] val cellOuterSize = 7
   private[this] val padLeft       = cellOuterSize
@@ -58,6 +58,10 @@ final class Visualizer(warriors: List[Warrior])(implicit mem: Memory with DirtyM
 
   def clearWarriorsPc() {
     warriors foreach { w => drawCells(Seq(w.pc), _ => playerColors(w.id)) }
+  }
+
+  def outputDebug() {
+    debugger.innerHTML = warriors.map(w => f"<b style='color: ${playerColors(w.id)}%s;'>${w.id}%s</b> ${w.pc}%05d ${mem(w.pc)}%s").mkString("<br>")
   }
 
   private[this] def drawCells(addrs: Seq[Int], style: Int => String) {
@@ -171,8 +175,9 @@ class Warrior(val id: Int, base: Int, code: List[Instruction])(implicit mem: Mem
 object CoreWars extends JSApp {
   def main() = {
   	val document = Dynamic.global.document
-  	val playground = document.getElementById("board").asInstanceOf[HTMLCanvasElement]
-  	implicit val renderer = playground.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
+  	val playground: HTMLCanvasElement = document.getElementById("board").asInstanceOf[HTMLCanvasElement]
+    val debugger: HTMLElement = document.getElementById("debugger").asInstanceOf[HTMLElement]
+  	implicit val renderer: CanvasRenderingContext2D = playground.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
 
     implicit val mem = new Memory(8000) with DirtyMemory
 
@@ -194,13 +199,14 @@ object CoreWars extends JSApp {
 
     val warriors = w1 :: w2 :: w3 :: w4 :: Nil
 
-    val v = new Visualizer(warriors)
+    val v = new Visualizer(renderer, debugger, warriors)
 
     dom.setInterval(() => {
       v.clearWarriorsPc()
       warriors foreach { _.step() }
       v.drawDirtyMemory()
       v.highlightWarriorsPc()
-    }, 1000)
+      v.outputDebug()
+    }, 100)
   }
 }
