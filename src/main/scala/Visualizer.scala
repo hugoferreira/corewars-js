@@ -1,4 +1,5 @@
-import org.scalajs.dom.{HTMLElement, CanvasRenderingContext2D}
+import org.scalajs.dom.{CanvasRenderingContext2D, HTMLElement}
+
 import scala.collection.Seq
 
 final class Visualizer(renderer: CanvasRenderingContext2D, debugger: HTMLElement, warriors: List[Warrior])(implicit mem: Memory with DirtyMemory) {

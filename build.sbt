@@ -20,4 +20,6 @@ scalacOptions ++= Seq(
 
 libraryDependencies += "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6"
 
+libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.1"
+
 javaOptions += ""

@@ -1,6 +1,7 @@
-import scala.scalajs.js.{JSApp, Dynamic}
 import org.scalajs.dom
-import org.scalajs.dom.{HTMLElement, HTMLCanvasElement, CanvasRenderingContext2D}
+import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, HTMLElement}
+
+import scala.scalajs.js.{Dynamic, JSApp}
 
 object CoreWars extends JSApp {
   def main() = {
