@@ -1,3 +1,5 @@
+package VirtualMachine
+
 import scala.collection.mutable
 
 sealed trait Opcode
@@ -18,6 +20,13 @@ object Immediate extends Mode     { override def toString = "#" }
 object Direct extends Mode        { override def toString = " " }
 object Indirect extends Mode      { override def toString = "@" }
 object PreDecrement extends Mode  { override def toString = "<" }
+
+object Instruction {
+  def apply(op: Opcode, operandA: Operand, operandB: Operand): Instruction =
+    Instruction(op, operandA.mode, operandA.value, operandB.mode, operandB.value)
+}
+
+final case class Operand(mode: Mode, value: Int)
 
 sealed case class Instruction(op: Opcode, amode: Mode, a: Int, bmode: Mode, b: Int) {
   def update(f: Int => Int, g: Int => Int) = this.copy(a = f(a), b = g(b))

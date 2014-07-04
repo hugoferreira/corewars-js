@@ -1,7 +1,18 @@
 import org.scalajs.dom
 import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, HTMLElement}
-
 import scala.scalajs.js.{Dynamic, JSApp}
+import VirtualMachine._
+
+object Test extends App {
+  val p2 = new Assembler(
+    """ADD #4, 3
+      |MOV 2, @2
+      |JMP -2, 0
+      |DAT #0, #0
+    """.stripMargin).compile
+
+  println(p2)
+}
 
 object CoreWars extends JSApp {
   def main() = {
@@ -12,21 +23,29 @@ object CoreWars extends JSApp {
 
     implicit val mem = new Memory(8000) with DirtyMemory
 
-    val w1 = new Warrior(0, 0, Instruction(Mov, Direct, 0, Direct, 1) :: Nil)
+    val p1 = new Assembler("MOV 0, 1").compile
 
-    val w2 = new Warrior(1, 0, Instruction(Add, Immediate, 4, Direct, 3) ::
-                               Instruction(Mov, Direct, 2, Indirect, 2) ::
-                               Instruction(Jmp, Direct, -2, Direct, 0) ::
-                               Instruction(Dat, Immediate, 0, Immediate, 0) :: Nil)
+    val p2 = new Assembler(
+      """ADD #4, 3
+        |MOV 2, @2
+        |JMP -2, 0
+        |DAT #0, #0""".stripMargin).compile
 
-    val w3 = new Warrior(2, 1, Instruction(Dat, Immediate, 0, Immediate, 0) ::
-                               Instruction(Jmp, Direct, 0, PreDecrement, -1) :: Nil)
+    val p3 = new Assembler(
+      """DAT #0, #0
+        |JMP 0, <-1""".stripMargin).compile
 
-    val w4 = new Warrior(3, 0, Instruction(Mov, PreDecrement, 2, Direct, 3) ::
-                               Instruction(Add, Direct, 3, Direct, -1) ::
-                               Instruction(Jmp, Direct, -2, Direct, 0) ::
-                               Instruction(Dat, Immediate, 0, Immediate, 0) ::
-                               Instruction(Dat, Immediate, -5084, Immediate, 5084) :: Nil)
+    val p4 = new Assembler(
+      """MOV <2, 3
+        |ADD 3, -1
+        |JMP -1, 0
+        |DAT #0, #0
+        |DAT #-5084, #5084""".stripMargin).compile
+
+    val w1 = new Warrior(0, 0, p1)
+    val w2 = new Warrior(1, 0, p2)
+    val w3 = new Warrior(2, 1, p3)
+    val w4 = new Warrior(3, 0, p4)
 
     val warriors = w1 :: w2 :: w3 :: w4 :: Nil
 
