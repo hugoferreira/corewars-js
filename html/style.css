@@ -3,6 +3,11 @@
     color: white;
 }
 
+#inspector {
+    font-family: monospace;
+    color: white;
+}
+
 h1 {
     color: white;
     text-align: center;
