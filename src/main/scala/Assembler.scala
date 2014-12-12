@@ -17,7 +17,14 @@ class Assembler(val input: ParserInput) extends Parser {
   def Opcode     = rule { valueMap(Map("add" → Add,
                                        "mov" → Mov,
                                        "jmp" → Jmp,
-                                       "dat" → Dat)) }
+                                       "dat" → Dat,
+                                       "sub" → Sub,
+                                       "cmp" → Cmp,
+                                       "jmz" → Jmz,
+                                       "slt" → Slt,
+                                       "jmn" → Jmn,
+                                       "djn" → Djn,
+                                       "spl" → Spl)) }
   def Operand   = rule { WhiteSpace ~ AddrMode ~ WhiteSpace ~ Number ~> VirtualMachine.Operand }
   def AddrMode  = rule { valueMap(Map("@" → Indirect,
                                       "#" → Immediate,

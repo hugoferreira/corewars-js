@@ -2,15 +2,15 @@ import scala.scalajs.js.{Dynamic, JSApp}
 
 import VirtualMachine._
 import org.scalajs.dom
-import org.scalajs.dom.{HTMLCanvasElement, HTMLElement}
+import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, HTMLElement}
 
 object Test extends App {
-  val p2 = new Assembler(
+  val p2 = RedCode(
     """ADD #4, 3
       |MOV 2, @2
       |JMP -2, 0
       |DAT #0, #0
-    """.stripMargin).compile
+    """)
 
   println(p2)
 }

@@ -9,10 +9,10 @@ object Sub extends Opcode { override def toString = "SUB" }
 object Cmp extends Opcode { override def toString = "CMP" }
 object Slt extends Opcode { override def toString = "SLT" }
 object Jmp extends Opcode { override def toString = "JMP" }
-object Jmz extends Opcode
-object Jmn extends Opcode
-object Djn extends Opcode
-object Spl extends Opcode
+object Jmz extends Opcode { override def toString = "JMZ" }
+object Jmn extends Opcode { override def toString = "JMN" }
+object Djn extends Opcode { override def toString = "DJN" }
+object Spl extends Opcode { override def toString = "SPL" }
 object Dat extends Opcode { override def toString = "DAT" }
 
 sealed trait Mode
@@ -53,7 +53,6 @@ class Memory(val size: Int) {
 }
 
 trait DirtyMemory extends Memory {
-  val size: Int
   val dirty = mutable.BitSet((0 until size).toArray : _*)
 
   override def update(index: Int, v: Instruction)(implicit player: Player = None) {
@@ -66,10 +65,11 @@ sealed trait Player
 object None extends Player
 
 class Warrior(val id: Int, base: Int, code: List[Instruction])(implicit mem: Memory) extends Player {
-  implicit val warrior = this
-  val initAddr = util.Random.nextInt(mem.size)
+  private[this] implicit val warrior = this
+  private[this] val initAddr = util.Random.nextInt(mem.size)
+  private[this] var alive = true
+
   var pc = initAddr + base
-  var alive = true
 
   code.zipWithIndex.foreach { case (i, idx) => mem(idx + initAddr) = i }
 

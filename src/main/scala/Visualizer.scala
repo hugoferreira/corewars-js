@@ -12,12 +12,13 @@ final class Visualizer(canvas: HTMLCanvasElement, debugger: HTMLElement, inspect
   private[this] val cellColor     = "rgb(30, 30, 30)"
   private[this] val playerColors  = List("rgb(30, 200, 200)", "rgb(200, 200, 30)", "rgb(200, 30, 200)", "rgb(30, 200, 30)")
   private[this] val renderer      = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
+  private[this] var inspectedAddr = 0
 
-  canvas.onmousemove = { (e: MouseEvent) =>
+  canvas.onmousemove = onMouseMove _
+
+  private[this] def onMouseMove(e: MouseEvent) = {
     val pos = canvasMousePosition(e)
-    val addr = (pos._2 - padTop) / cellOuterSize * gridWidth + (pos._1 - padLeft) / cellOuterSize
-
-    inspector.innerHTML = f"$addr%05d ${mem(addr)}%s"
+    inspectedAddr = (pos._2 - padTop) / cellOuterSize * gridWidth + (pos._1 - padLeft) / cellOuterSize
   }
 
   private[this] def canvasMousePosition(e: MouseEvent): (Int, Int) = {
@@ -35,7 +36,10 @@ final class Visualizer(canvas: HTMLCanvasElement, debugger: HTMLElement, inspect
   }
 
   def highlightWarriorsPc() {
+    renderer.save()
+    renderer.globalAlpha = 0.5
     drawCells(warriors.map(_.pc), _ => "rgb(255, 255, 255)")
+    renderer.restore()
   }
 
   def clearWarriorsPc() {
@@ -44,6 +48,7 @@ final class Visualizer(canvas: HTMLCanvasElement, debugger: HTMLElement, inspect
 
   def outputDebug() {
     debugger.innerHTML = warriors.map(w => f"<b style='color: ${playerColors(w.id)}%s;'>${w.id}%s</b> ${w.pc}%05d ${mem(w.pc)}%s").mkString("<br>")
+    inspector.innerHTML = f"$inspectedAddr%05d ${mem(inspectedAddr)}%s"
   }
 
   private[this] def drawCells(addrs: Seq[Int], style: Int => String) {
