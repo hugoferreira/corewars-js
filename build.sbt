@@ -1,22 +1,23 @@
+enablePlugins(ScalaJSPlugin)
+
 name := "core-wars-js"
 
 version := "0.1"
 
-scalaVersion := "2.11.4"
+scalaVersion := "2.11.6"
 
-scalaJSSettings
+persistLauncher := true
+
+persistLauncher in Test := false
 
 resolvers ++= Seq(
-  "snapshots"                 at "http://oss.sonatype.org/content/repositories/snapshots",
-  "releases"                  at "http://oss.sonatype.org/content/repositories/releases",
-  "Typesafe Repository"       at "http://repo.typesafe.com/typesafe/releases/",
   "bintray-alexander_myltsev" at "http://dl.bintray.com/content/alexander-myltsev/maven"
 )
 
 libraryDependencies ++= Seq(
-  "org.scala-lang.modules.scalajs" %%% "scalajs-dom"   % "0.6",
-  "org.parboiled" 		             %%% "parboiled"     % "2.0.1",
-  "org.scala-lang" 		               % "scala-reflect" % "2.11.4")
+  "org.scala-js"    %%% "scalajs-dom"   % "0.7.0",
+  "org.parboiled"   %%% "parboiled"     % "2.0.1",
+  "org.scala-lang"    % "scala-reflect" % "2.11.6")
 
 scalacOptions ++= Seq(
   "-deprecation",

@@ -2,7 +2,7 @@ import scala.scalajs.js.{Dynamic, JSApp}
 
 import VirtualMachine._
 import org.scalajs.dom
-import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, HTMLElement}
+import org.scalajs.dom.{HTMLCanvasElement, HTMLElement}
 
 object Test extends App {
   val p2 = RedCode(
