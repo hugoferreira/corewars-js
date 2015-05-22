@@ -1,8 +1,8 @@
-import scala.scalajs.js.{Dynamic, JSApp}
+import scala.scalajs.js.JSApp
 
 import VirtualMachine._
 import org.scalajs.dom
-import org.scalajs.dom.{HTMLCanvasElement, HTMLElement}
+import org.scalajs.dom.raw.{HTMLCanvasElement, HTMLElement}
 
 object Test extends App {
   val p2 = RedCode(
@@ -17,10 +17,9 @@ object Test extends App {
 
 object CoreWars extends JSApp {
   def main() = {
-  	val document = Dynamic.global.document
-  	val canvas = document.getElementById("board").asInstanceOf[HTMLCanvasElement]
-    val debugger = document.getElementById("debugger").asInstanceOf[HTMLElement]
-    val inspector = document.getElementById("inspector").asInstanceOf[HTMLElement]
+  	val canvas = dom.document.getElementById("board").asInstanceOf[HTMLCanvasElement]
+    val debugger = dom.document.getElementById("debugger").asInstanceOf[HTMLElement]
+    val inspector = dom.document.getElementById("inspector").asInstanceOf[HTMLElement]
 
     implicit val mem = new Memory(8000) with DirtyMemory
 

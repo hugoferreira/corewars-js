@@ -1,7 +1,7 @@
 import scala.collection.Seq
 
 import VirtualMachine._
-import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, HTMLElement, MouseEvent}
+import org.scalajs.dom.raw.{CanvasRenderingContext2D, HTMLCanvasElement, HTMLElement, MouseEvent}
 
 final class Visualizer(canvas: HTMLCanvasElement, debugger: HTMLElement, inspector: HTMLElement, warriors: List[Warrior])(implicit mem: Memory with DirtyMemory) {
   private[this] val gridWidth     = 125

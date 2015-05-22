@@ -15,7 +15,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scala-js"    %%% "scalajs-dom"   % "0.7.0",
+  "org.scala-js"    %%% "scalajs-dom"   % "0.8.0",
   "org.parboiled"   %%% "parboiled"     % "2.0.1",
   "org.scala-lang"    % "scala-reflect" % "2.11.6")
 
