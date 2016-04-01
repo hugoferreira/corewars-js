@@ -4,7 +4,7 @@ name := "core-wars-js"
 
 version := "0.1"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.8"
 
 persistLauncher := true
 
@@ -15,9 +15,10 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scala-js"    %%% "scalajs-dom"   % "0.8.0",
+  "org.scala-js"    %%% "scalajs-dom"   % "0.9.0",
   "org.parboiled"   %%% "parboiled"     % "2.0.1",
-  "org.scala-lang"    % "scala-reflect" % "2.11.6")
+  "org.scala-lang"    % "scala-reflect" % "2.11.8"
+  /*,"com.lihaoyi"     %%% "fastparse"     % "0.1.5"*/)
 
 scalacOptions ++= Seq(
   "-deprecation",

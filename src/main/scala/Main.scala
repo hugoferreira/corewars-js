@@ -21,6 +21,7 @@ object CoreWars extends JSApp {
     val debugger = dom.document.getElementById("debugger").asInstanceOf[HTMLElement]
     val inspector = dom.document.getElementById("inspector").asInstanceOf[HTMLElement]
 
+
     implicit val mem = new Memory(8000) with DirtyMemory
 
     val p1 = RedCode("MOV 0, 1")
@@ -51,7 +52,7 @@ object CoreWars extends JSApp {
 
     val v = new Visualizer(canvas, debugger, inspector, warriors)
 
-    dom.setInterval(() => {
+    dom.window.setInterval(() => {
       v.clearWarriorsPc()
       warriors foreach { _.step() }
       v.drawDirtyMemory()
